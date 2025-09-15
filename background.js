@@ -1,4 +1,4 @@
-const MODEL_NAME = 'gemini-2.0-flash';
+const MODEL_NAME = 'gemini-1.5-flash-latest';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === 'summarize') {
@@ -14,16 +14,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       
       const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL_NAME}:generateContent?key=${apiKey}`;
       
-      // --- YENİ EKLENDİ: Hedef kelime sayısını hesapla ---
       const originalText = request.text;
       const wordCount = originalText.split(/\s+/).length;
       const summaryLengthPercentage = parseInt(result.summaryLength || '50', 10); // Varsayılan %50
       const targetWordCount = Math.round(wordCount * (summaryLengthPercentage / 100));
-      // --- BİTTİ ---
 
       callGeminiAPI(API_URL, originalText, targetWordCount)
         .then(summary => {
-          chrome.tabs.sendMessage(sender.tab.id, { action: 'displaySummary', summary: summary });
+          const timeSavedString = calculateTimeSaved(originalText, summary);
+          chrome.tabs.sendMessage(sender.tab.id, { 
+            action: 'displaySummary', 
+            summary: summary,
+            timeSaved: timeSavedString
+          });
         })
         .catch(error => {
           console.error('Gemini API Hatası:', error);
@@ -35,13 +38,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
+function calculateTimeSaved(originalText, summaryText) {
+  const WPM = 225;
+  const originalWordCount = originalText.split(/\s+/).length;
+  const summaryWordCount = summaryText.split(/\s+/).length;
+
+  const wordsSaved = originalWordCount - summaryWordCount;
+  if (wordsSaved <= 0) return null;
+
+  const secondsSaved = Math.round((wordsSaved / WPM) * 60);
+
+  if (secondsSaved < 60) {
+    return `Yaklaşık ${secondsSaved} saniye tasarruf ettiniz.`;
+  } else {
+    const minutes = Math.floor(secondsSaved / 60);
+    const seconds = secondsSaved % 60;
+    return `Yaklaşık ${minutes} dakika ${seconds} saniye tasarruf ettiniz.`;
+  }
+}
 
 async function callGeminiAPI(apiUrl, text, targetLength) {
   const maxRetries = 3;
   let delay = 1000;
   
-  // Prompt  dinamik olarak gelen hedef kelime sayısını kullanıyor.
-  const prompt = `Aşağıdaki metni yaklaşık ${targetLength} kelime kullanarak özetle. Eğer metin birisinin kendisi hakkında ifadesi ise, o öznesi ile özeti sun. Eğer metin genel ifadeler barındıyorsa, örneğin teknik veya eğitici bir döküman; o zaman daha genel bir dil kullan. Sadece özet metnini döndür ve metnin orijinal dilini koru(türkçe ise türkçe, ingilizec ise ingilizce özetleme yap), başka hiçbir şey ekleme:\n\n"${text}"`;
+  const prompt = `Aşağıdaki metni yaklaşık ${targetLength} kelime kullanarak özetle. Sadece özet metnini döndür, başka hiçbir şey ekleme:\n\n"${text}"`;
 
   for (let i = 0; i < maxRetries; i++) {
     try {
