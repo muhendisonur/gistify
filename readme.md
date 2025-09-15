@@ -1,8 +1,7 @@
-# Gemini Metin Özetleyici Chrome Eklentisi 🚀
+# Gistify v1.1 🚀
 
 Web sayfalarında seçtiğiniz metinleri Google Gemini API'sini kullanarak anında özetleyen bir Chrome eklentisi. Bu araç, uzun makaleleri, raporları veya herhangi bir metni hızla anlamak ve bilgiye verimli bir şekilde ulaşmak için tasarlanmıştır.
 
-![Gemini Summarizer Demo](demo.gif)
 
 ## ✨ Özellikler
 
