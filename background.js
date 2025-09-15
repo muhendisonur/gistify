@@ -35,12 +35,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 });
 
-// Fonksiyon artık 'targetWordCount' parametresini 'targetLength' olarak alıyor.
+
 async function callGeminiAPI(apiUrl, text, targetLength) {
   const maxRetries = 3;
   let delay = 1000;
   
-  // Prompt artık dinamik olarak gelen hedef kelime sayısını kullanıyor.
+  // Prompt  dinamik olarak gelen hedef kelime sayısını kullanıyor.
   const prompt = `Aşağıdaki metni yaklaşık ${targetLength} kelime kullanarak özetle. Eğer metin birisinin kendisi hakkında ifadesi ise, o öznesi ile özeti sun. Eğer metin genel ifadeler barındıyorsa, örneğin teknik veya eğitici bir döküman; o zaman daha genel bir dil kullan. Sadece özet metnini döndür, başka hiçbir şey ekleme:\n\n"${text}"`;
 
   for (let i = 0; i < maxRetries; i++) {

@@ -14,7 +14,7 @@
   pointer-events: none;
 }
 
-/* YENİ EKLENDİ - Manuel mod tetikleyici simgesi */
+/* Manuel mod tetikleyici simgesi */
 #gemini-manual-trigger {
   position: absolute;
   z-index: 99998; /* Pop-up'ın altında kalsın */
