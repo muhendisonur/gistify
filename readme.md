@@ -27,7 +27,7 @@ Bu eklentiyi yerel makinenizde test etmek ve geliştirmek için aşağıdaki ad�
 
 1.  **Projeyi Klonlayın:**
     ```bash
-    git clone [https://github.com/kullanici-adiniz/proje-adiniz.git](https://github.com/kullanici-adiniz/proje-adiniz.git)
+    git clone https://github.com/muhendisonur/gistify.git
     ```
 2.  **Chrome Eklentiler Sayfasını Açın:**
     Tarayıcınızın adres çubuğuna `chrome://extensions` yazın ve Enter'a basın.
