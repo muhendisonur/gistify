@@ -41,7 +41,7 @@ async function callGeminiAPI(apiUrl, text, targetLength) {
   let delay = 1000;
   
   // Prompt  dinamik olarak gelen hedef kelime sayısını kullanıyor.
-  const prompt = `Aşağıdaki metni yaklaşık ${targetLength} kelime kullanarak özetle. Eğer metin birisinin kendisi hakkında ifadesi ise, o öznesi ile özeti sun. Eğer metin genel ifadeler barındıyorsa, örneğin teknik veya eğitici bir döküman; o zaman daha genel bir dil kullan. Sadece özet metnini döndür, başka hiçbir şey ekleme:\n\n"${text}"`;
+  const prompt = `Aşağıdaki metni yaklaşık ${targetLength} kelime kullanarak özetle. Eğer metin birisinin kendisi hakkında ifadesi ise, o öznesi ile özeti sun. Eğer metin genel ifadeler barındıyorsa, örneğin teknik veya eğitici bir döküman; o zaman daha genel bir dil kullan. Sadece özet metnini döndür ve metnin orijinal dilini koru(türkçe ise türkçe, ingilizec ise ingilizce özetleme yap), başka hiçbir şey ekleme:\n\n"${text}"`;
 
   for (let i = 0; i < maxRetries; i++) {
     try {
