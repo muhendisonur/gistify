@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Gemini Metin Özetleyici",
+  "name": "Gistify",
   "version": "1.1",
   "description": "Seçilen metni Gemini API kullanarak özetler ve sayfa üzerinde gösterir.",
   "permissions": [
